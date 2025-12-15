@@ -1,5 +1,5 @@
 # olist_customer_rfm
-E-Commerce Customer Segmentation &amp; Revenue Strategy Dashboard using the Olist dataset
+Olist Purchasing Behaviour & Segmentation Aanlysis
 
 ## Project Overview
 
