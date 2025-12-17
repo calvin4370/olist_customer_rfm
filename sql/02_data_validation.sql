@@ -1,3 +1,5 @@
+USE olist;
+
 -- 1. Row count checks
 SELECT
     COUNT(*) AS total_orders
@@ -71,4 +73,41 @@ SELECT
     SUM(CASE WHEN price < 0 THEN 1 ELSE 0 END) AS negative_price_orders
 FROM order_items
 
+-- Check item counts per order in order_items
+SELECT
+    order_id,
+    COUNT(*) as num_items
+FROM order_items
+GROUP BY order_id
+ORDER BY num_items DESC;
 
+-- Check outliers for item counts per order in order_items
+SELECT
+    order_id,
+    COUNT(*) as num_items
+FROM order_items
+GROUP BY order_id
+HAVING num_items > 10
+ORDER BY num_items DESC;
+
+
+-- Check number of orders per customer
+SELECT
+    customer_unique_id,
+    COUNT(DISTINCT order_id) as num_orders -- DISTINCT order_id because one customer may have repeats of the same order_id if the order contains more than 1 item, not that it matters here
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE order_status = "delivered"
+GROUP BY customer_unique_id
+ORDER BY num_orders DESC;
+
+-- Check revenue per customer
+SELECT
+    customer_unique_id,
+    SUM(price) as revenue
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+WHERE order_status = "delivered"
+GROUP BY customer_unique_id
+ORDER BY revenue DESC;
