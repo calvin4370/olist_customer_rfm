@@ -8,7 +8,14 @@ SELECT
     frequency,
     monetary,
     NTILE(5) OVER (ORDER BY recency DESC) AS r_score,
-    NTILE(5) OVER (ORDER BY frequency ASC) AS f_score,
+    -- f-score: Hardcode as NTILE will give a bad distribution
+    CASE 
+        WHEN frequency >= 4 THEN 5
+        WHEN frequency = 3 THEN 4
+        WHEN frequency = 2 THEN 3
+        WHEN frequency = 1 THEN 1
+        ELSE 1
+    END AS f_score,
     NTILE(5) OVER (ORDER BY monetary ASC) AS m_score
 FROM customer_rfm;
 
@@ -48,6 +55,15 @@ SELECT
 FROM customer_rfm_segmented
 GROUP BY rfm_segment
 ORDER BY num_customers DESC;
+
+-- Check that f_score is distribued properly
+SELECT 
+    frequency,
+    f_score,
+    COUNT(*) 
+FROM customer_rfm_scored 
+GROUP BY frequency, f_score 
+ORDER BY frequency, f_score;
 
 -- Revenue metrics per segment, Revenue concentration by segment
 SELECT
