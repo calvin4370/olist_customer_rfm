@@ -18,8 +18,19 @@ This analysis uses the [Brazilian E-Commerce Public Dataset by Olist](https://ww
 Key steps in the analysis include:
 - Building order-level and customer-level fact tables in MySQL by joining transactional order data across multiple tables.
 - Computing Recency, Frequency, and Monetary (RFM) metrics to quantify customer engagement and value.
-- Assigning customers to RFM-based segments using rule-based scoring logic.
+- Assigning customers to RFM-based segments based on CleverTap's RFM Segmentation table
 - Visualising customer segments and behavioural patterns in Tableau.
+
+![CleverTap RFM Segmentation Table](./docs/clevertap_rfm_segmentation_table.png)
+
+<p align="center">
+  <em>
+    CleverTap RFM Segmentation Table — source:
+    <a href="https://docs.clevertap.com/docs/rfm" target="_blank">
+      CleverTap Documentation
+    </a>
+  </em>
+</p>
 
 ## Key Insights
 - A vast majority of customers fall into low-frequency segments such as "Hibernating", "About to Sleep", and "Promising", which indicates a highly transactional customer base driven primarily by one-time purchases.
